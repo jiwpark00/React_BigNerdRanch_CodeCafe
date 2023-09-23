@@ -36,7 +36,8 @@
             ".jsx"
           ]
         }
-      ]
+      ],
+      "no-console": "off"
     }
   },
   "browserslist": {
