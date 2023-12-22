@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home';
 
@@ -13,10 +17,10 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <Router>
       <Header />
       <Home items={items} />
-    </div>
+    </Router>
   );
 }
 
