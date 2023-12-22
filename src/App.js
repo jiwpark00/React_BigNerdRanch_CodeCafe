@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   BrowserRouter as Router,
@@ -11,9 +11,12 @@ import Details from './components/Details';
 import Header from './components/Header';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
+import { cartReducer, initialCartState } from './reducers/cartReducer';
 
 function App() {
   const [items, setItems] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [cart, dispatch] = useReducer(cartReducer, initialCartState);
 
   useEffect(() => {
     axios.get('/api/items')
@@ -23,7 +26,7 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      <Header cart={cart} />
       {items.length === 0
         ? <div>Loading...</div>
         : (
