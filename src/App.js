@@ -7,6 +7,7 @@ import {
   Route,
 } from 'react-router-dom';
 import DetailItem from './components/DetailItem';
+import Cart from './components/Cart';
 import Details from './components/Details';
 import Header from './components/Header';
 import Home from './components/Home';
@@ -31,6 +32,7 @@ function App() {
         ? <div>Loading...</div>
         : (
           <Routes>
+            <Route path="/cart" element={<Cart />} />
             <Route path="/details" element={<Details items={items} />}>
               <Route
                 path=":id"
