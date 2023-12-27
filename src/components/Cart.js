@@ -38,6 +38,16 @@ function Cart({ cart, dispatch, items }) {
             Subtotal: $
             {subTotal.toFixed(2)}
           </div>
+          <h2>Checkout</h2>
+          <form>
+            <label htmlFor="name">
+              Name
+              <input
+                id="name"
+                type="text"
+              />
+            </label>
+          </form>
         </>
       )}
     </div>
