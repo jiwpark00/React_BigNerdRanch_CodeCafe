@@ -9,6 +9,14 @@ function Cart({ cart, dispatch, items }) {
     const itemPrice = detailItem.salePrice ?? detailItem.price;
     return item.quantity * itemPrice + acc;
   }, 0);
+
+  const submitOrder = (event) => {
+    event.preventDefault();
+    console.log('name: ', event.target.name.values);
+    console.log('phone: ', event.target.phone.value);
+    console.log('zipcode: ', event.target.zipcode.value);
+  };
+
   return (
     <div className="cart-component">
       <h2>Your Cart</h2>
@@ -39,14 +47,34 @@ function Cart({ cart, dispatch, items }) {
             {subTotal.toFixed(2)}
           </div>
           <h2>Checkout</h2>
-          <form>
+          <form onSubmit={submitOrder}>
             <label htmlFor="name">
               Name
               <input
                 id="name"
                 type="text"
+                value="M. Mouse"
               />
             </label>
+            <label htmlFor="phone">
+              Phone Number
+              <input
+                id="phone"
+                type="tel"
+              />
+            </label>
+            <label htmlFor="zipcode">
+              ZIP Code
+              <input
+                id="zipcode"
+                type="text"
+                maxLength="5"
+                inputMode="numeric"
+              />
+            </label>
+            <button type="submit">
+              Order Now
+            </button>
           </form>
         </>
       )}
