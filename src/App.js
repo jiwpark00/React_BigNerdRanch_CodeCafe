@@ -18,6 +18,8 @@ const storageKey = 'cart';
 
 function App() {
   const [items, setItems] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [currentUser, setCurrentUser] = useState({});
   const [cart, dispatch] = useReducer(
     cartReducer,
     initialCartState,
@@ -40,6 +42,12 @@ function App() {
   useEffect(() => {
     axios.get('/api/items')
       .then((result) => setItems(result.data))
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    axios.get('/api/auth/current-user')
+      .then((result) => setCurrentUser(result.data))
       .catch(console.error);
   }, []);
 
