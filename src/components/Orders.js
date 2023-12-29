@@ -3,23 +3,60 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ItemType from '../types/item';
 import './Orders.css';
+import { useCurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Orders({ items }) {
   const [orders, setOrders] = useState([]);
+  const { currentUser } = useCurrentUserContext();
 
   useEffect(
     () => {
-      axios.get('/api/orders')
-        .then((result) => setOrders(result.data))
-        .catch(console.error);
+      if (currentUser.access === 'associate') {
+        const ws = new WebSocket(`${(
+          window.location.protocol === 'https:' ? 'wss://' : 'ws://'
+        )}${window.location.host}/ws-cafe`);
+        ws.onopen = () => {
+          console.log('connected');
+        };
+        ws.onerror = (event) => {
+          console.error(event);
+        };
+        ws.onmessage = (message) => {
+          const newOrders = JSON.parse(message.data);
+          setOrders(newOrders);
+        };
+        ws.onclose = () => {
+          console.log('disconnected');
+        };
+        return () => {
+          ws.close();
+          setOrders([]);
+        };
+      }
+      return () => { };
     },
-    [],
+    [currentUser],
   );
+
+  const deleteOrder = async (order) => {
+    try {
+      await axios.delete(`api/orders/${order.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="orders-component">
       <h2>Existing Orders</h2>
       {orders.length === 0
-        ? <div>No Orders</div>
+        ? (
+          <div>
+            {currentUser.access === 'associate'
+              ? 'No Orders'
+              : 'Access Denied'}
+          </div>
+        )
         : orders.map((order) => (
           <div className="order" key={order.id}>
             <table>
@@ -52,6 +89,12 @@ function Orders({ items }) {
                 ))}
               </tbody>
             </table>
+            <button
+              type="button"
+              onClick={() => deleteOrder(order)}
+            >
+              Delete Order
+            </button>
           </div>
         ))}
     </div>

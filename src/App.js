@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  useEffect, useMemo, useReducer, useState,
+  useCallback, useEffect, useMemo, useReducer, useState,
 } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -37,7 +37,10 @@ function App() {
       }
     },
   );
-  const addToCart = (itemId) => dispatch({ type: CartTypes.ADD, itemId });
+  const addToCart = useCallback(
+    (itemId) => dispatch({ type: CartTypes.ADD, itemId }),
+    [],
+  );
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(cart));
