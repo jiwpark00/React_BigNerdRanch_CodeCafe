@@ -13,12 +13,12 @@ import Header from './components/Header';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
 import { cartReducer, CartTypes, initialCartState } from './reducers/cartReducer';
+import CurrentUserContext from './contexts/CurrentUserContext';
 
 const storageKey = 'cart';
 
 function App() {
   const [items, setItems] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = useState({});
   const [cart, dispatch] = useReducer(
     cartReducer,
@@ -53,26 +53,30 @@ function App() {
 
   return (
     <Router>
-      <Header cart={cart} />
-      {items.length === 0
-        ? <div>Loading...</div>
-        : (
-          <Routes>
-            <Route
-              path="/cart"
-              element={<Cart cart={cart} dispatch={dispatch} items={items} />}
-            />
-            <Route path="/details" element={<Details items={items} />}>
+      <CurrentUserContext.Provider
+        value={currentUser}
+      >
+        <Header cart={cart} />
+        {items.length === 0
+          ? <div>Loading...</div>
+          : (
+            <Routes>
               <Route
-                path=":id"
-                element={<DetailItem items={items} addToCart={addToCart} />}
+                path="/cart"
+                element={<Cart cart={cart} dispatch={dispatch} items={items} />}
               />
-              <Route index element={<div>No Item Selected</div>} />
-            </Route>
-            <Route path="/" element={<Home items={items} />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        )}
+              <Route path="/details" element={<Details items={items} />}>
+                <Route
+                  path=":id"
+                  element={<DetailItem items={items} addToCart={addToCart} />}
+                />
+                <Route index element={<div>No Item Selected</div>} />
+              </Route>
+              <Route path="/" element={<Home items={items} />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          )}
+      </CurrentUserContext.Provider>
     </Router>
   );
 }
