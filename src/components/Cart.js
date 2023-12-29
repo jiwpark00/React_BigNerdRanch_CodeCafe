@@ -1,6 +1,6 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import ItemType from '../types/item';
 import CartRow from './CartRow';
 import './Cart.css';
@@ -24,8 +24,13 @@ function Cart({ cart, dispatch, items }) {
     return item.quantity * itemPrice + acc;
   }, 0);
 
-  const taxPercentage = parseInt(zipCode.substring(0, 1) || '0', 10) + 1;
-  const taxRate = taxPercentage / 100;
+  const taxRate = useMemo(
+    () => {
+      const taxPercentage = parseInt(zipCode.substring(0, 1) || '0', 10) + 1;
+      return taxPercentage / 100;
+    },
+    [zipCode],
+  );
   const tax = subTotal * taxRate;
   const total = subTotal + tax;
   const isFormValid = zipCode.length === 5 && name.trim();
@@ -122,7 +127,7 @@ function Cart({ cart, dispatch, items }) {
             Subtotal: $
             {subTotal.toFixed(2)}
           </div>
-          { zipCode.length === 5
+          {zipCode.length === 5
             ? (
               <>
                 <div>
@@ -131,7 +136,7 @@ function Cart({ cart, dispatch, items }) {
                 </div>
                 <div>
                   Total: $
-                  { total.toFixed(2) }
+                  {total.toFixed(2)}
                 </div>
               </>
             ) : (
