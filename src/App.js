@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { useEffect, useReducer, useState } from 'react';
+import {
+  useEffect, useMemo, useReducer, useState,
+} from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   BrowserRouter as Router,
@@ -14,6 +16,7 @@ import Home from './components/Home';
 import NotFound from './components/NotFound';
 import { cartReducer, CartTypes, initialCartState } from './reducers/cartReducer';
 import CurrentUserContext from './contexts/CurrentUserContext';
+import Login from './components/Login';
 
 const storageKey = 'cart';
 
@@ -51,10 +54,15 @@ function App() {
       .catch(console.error);
   }, []);
 
+  const currentUserContextValue = useMemo(
+    () => ({ currentUser, setCurrentUser }),
+    [currentUser],
+  );
+
   return (
     <Router>
       <CurrentUserContext.Provider
-        value={currentUser}
+        value={currentUserContextValue}
       >
         <Header cart={cart} />
         {items.length === 0
@@ -73,6 +81,7 @@ function App() {
                 <Route index element={<div>No Item Selected</div>} />
               </Route>
               <Route path="/" element={<Home items={items} />} />
+              <Route path="/login" element={<Login />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}
