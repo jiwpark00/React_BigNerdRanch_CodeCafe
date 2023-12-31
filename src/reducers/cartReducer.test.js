@@ -37,4 +37,37 @@ describe('cartReducer', () => {
 
     expect(cartReducerOutput).toEqual(finalCartState);
   });
+
+  it('empties cart', () => {
+    const initialCartState = [{
+      itemId: 1,
+      quantity: 1,
+    }];
+
+    const cartReducerOutput = cartReducer(
+      initialCartState,
+      { type: CartTypes.EMPTY },
+    );
+
+    const finalCartState = [];
+
+    expect(cartReducerOutput).toEqual(finalCartState);
+  });
+
+    it('removes item', () => {
+      const itemId = 1;
+      const initialCartState = [{
+        itemId,
+        quantity: 1,
+      }];
+
+      const cartReducerOutput = cartReducer(
+        initialCartState,
+        { type: CartTypes.REMOVE, itemId },
+      );
+
+      const finalCartState = [];
+
+      expect(cartReducerOutput).toEqual(finalCartState);
+    });
 });
