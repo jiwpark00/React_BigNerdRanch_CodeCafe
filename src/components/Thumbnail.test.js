@@ -8,7 +8,7 @@ describe('Thumbnail', () => {
     render(
       <Router>
         <Thumbnail itemId="coffee" title="Coffee" image={itemImages.coffee} />
-      </Router>
+      </Router>,
     );
     screen.getByText(/Coffee/i);
     screen.getByAltText(/Coffee/i);
