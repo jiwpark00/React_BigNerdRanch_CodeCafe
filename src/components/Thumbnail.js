@@ -6,6 +6,7 @@ function Thumbnail({ itemId, image, title }) {
   return (
     <Link
       className="thumbnail-component"
+      data-testid="thumbnail-component"
       to={`/details/${itemId}`}
     >
       <div>
