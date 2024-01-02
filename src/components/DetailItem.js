@@ -62,4 +62,6 @@ function DetailsOuter({ addToCart, items }) {
   );
 }
 
+DetailsOuter.propTypes = sharedProps;
+
 export default DetailsOuter;
