@@ -12,7 +12,7 @@ describe('cartReducer', () => {
 
     const finalCartState = [{
       itemId,
-      quantity: 1
+      quantity: 1,
     }];
 
     expect(cartReducerOutput).toEqual(finalCartState);
@@ -54,20 +54,20 @@ describe('cartReducer', () => {
     expect(cartReducerOutput).toEqual(finalCartState);
   });
 
-    it('removes item', () => {
-      const itemId = 1;
-      const initialCartState = [{
-        itemId,
-        quantity: 1,
-      }];
+  it('removes item', () => {
+    const itemId = 1;
+    const initialCartState = [{
+      itemId,
+      quantity: 1,
+    }];
 
-      const cartReducerOutput = cartReducer(
-        initialCartState,
-        { type: CartTypes.REMOVE, itemId },
-      );
+    const cartReducerOutput = cartReducer(
+      initialCartState,
+      { type: CartTypes.REMOVE, itemId },
+    );
 
-      const finalCartState = [];
+    const finalCartState = [];
 
-      expect(cartReducerOutput).toEqual(finalCartState);
-    });
+    expect(cartReducerOutput).toEqual(finalCartState);
+  });
 });
